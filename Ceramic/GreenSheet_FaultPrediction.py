@@ -52,9 +52,6 @@ class DataSet:
 
 
 class Preprocessing:
-    def show_correlation_plots(self, xdata, ydata):
-        pass
-
     def data_division(self, x, y, test_size=0.2):
         # 분류모델 훈련 데이터와 평가 데이터 분할
         return train_test_split(x, y, test_size=test_size)
@@ -63,6 +60,7 @@ class Prediction:
     def __init__(self):
         self.__best_model = None
         self.__best_score = .0
+        self.__best_model_number = 0
 
     def make_model(self, X_train, X_eval, y_train, y_eval, epoch):
         # 분류모델 학습 (iteration: 100)
@@ -71,10 +69,12 @@ class Prediction:
             model = RandomForestClassifier(n_estimators=100, oob_score=True)
             model.fit(X_train, y_train)
             score = model.score(X_eval, y_eval)
-            pbar.set_description(f"{i+1}번째 모델 생성중 : ")
+            pbar.set_description(f"{i+1}번째 모델 생성중 : 현재 최적모델 :  {self.__best_model_number+1}\n ")
             if self.__best_score < score:
                 self.__best_score = score
                 self.__best_model = model
+                self.__best_model_number = i
+
         print("<< 훈련종료 >>")
         print('훈련 데이터 정확도: {:.3f}'.format(self.__best_model.score(X_train, y_train)))
         print('평가 데이터 정확도: {:.3f}'.format(self.__best_model.score(X_eval, y_eval)))
