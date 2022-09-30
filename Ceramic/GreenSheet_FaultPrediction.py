@@ -34,7 +34,7 @@ class Visualization:
         p_model.fit(x, y)
 
         mypredictions = p_model.predict(x_eval)
-        print('Dummy Classifier의 정확도는: {0:.4f}'.format(accuracy_score(y_eval, mypredictions)))
+        print(' 정확도 : {0:.4f}'.format(accuracy_score(y_eval, mypredictions)))
         return __pred
 
     def confusion_matrix(self, trains, preds):
