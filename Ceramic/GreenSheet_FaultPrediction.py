@@ -69,7 +69,7 @@ class Prediction:
             model = RandomForestClassifier(n_estimators=100, oob_score=True)
             model.fit(X_train, y_train)
             score = model.score(X_eval, y_eval)
-            pbar.set_description(f"{i+1}번째 모델 생성중 : 현재 최적모델 :  {self.__best_model_number+1}\n ")
+            pbar.set_description(f"{i+1}번째 모델 생성중 - 현재 최적모델 :  {self.__best_model_number+1} ")
             if self.__best_score < score:
                 self.__best_score = score
                 self.__best_model = model
