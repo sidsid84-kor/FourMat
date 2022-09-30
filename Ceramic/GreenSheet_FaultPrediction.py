@@ -35,11 +35,11 @@ class Visualization:
         # plt.imshow(__cf, cmap='gray')
         classes = ['0','1']
         plt.figure(figsize=(10, 10))
-        plt.imshow(__cf, interpolation='nearest', cmap='gray')
+        plt.imshow(__cf, interpolation='nearest', cmap=plt.cm.Blues)
         plt.title('confusion matrix')
         plt.colorbar()
         tick_marks=np.arange(len(classes))
-        plt.xticks(tick_marks, classes, rotation=45)
+        plt.xticks(tick_marks, classes)
         plt.yticks(tick_marks, classes)
 
         __cf = __cf.astype('float') / __cf.sum(axis=1)[:, np.newaxis]
