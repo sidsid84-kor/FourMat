@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_predict
+from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn import tree
 import warnings
 import seaborn as sns
 import tqdm
+
 warnings.filterwarnings(action='ignore')
 
 
@@ -21,10 +23,24 @@ class Visualization:
 
     def relateXY_visualize(self, X, Y):
         # 훈련 데이터 시각화
-        trains = pd.concat([X, Y], axis=1)
-        trains.hist(figsize=(10, 10))
+        __trains = pd.concat([X, Y], axis=1)
+        __trains.hist(figsize=(10, 10))
         plt.show()
-        return trains
+        return __trains
+
+    def predicts(self, p_model, x, x_eval, y, y_eval ,p_cv=3):
+        __pred = cross_val_predict(p_model, x, y, cv=p_cv)
+
+        p_model.fit(x, y)
+
+        mypredictions = p_model.predict(x_eval)
+        print('Dummy Classifier의 정확도는: {0:.4f}'.format(accuracy_score(y_eval, mypredictions)))
+        return __pred
+
+    def confusion_matrix(self, trains, preds):
+        __cf = confusion_matrix(trains, preds)
+        print(__cf)
+
 
 class DataSet:
     def __init__(self) -> None:
@@ -32,7 +48,7 @@ class DataSet:
         data = pd.read_csv(data_path)
 
         self.__feature_name = ['pbratio', 'binder_con', 'defoamer', 'final_temp', 'viscosity',
-                   'coating_speed', 'gap', 'lab_temperature', 'lab_humidity', 'simulation']
+                               'coating_speed', 'gap', 'lab_temperature', 'lab_humidity', 'simulation']
         self.__target_name = ['binary_failure']
 
         self.__dataset = data[self.__feature_name + self.__target_name]
@@ -43,10 +59,10 @@ class DataSet:
 
     def data_XY(self):
         return self.__dataset[self.__feature_name], self.__dataset[self.__target_name]
-    
+
     def get_feature_name(self):
         return self.__feature_name
-    
+
     def get_target_name(self):
         return self.__target_name
 
@@ -55,6 +71,7 @@ class Preprocessing:
     def data_division(self, x, y, test_size=0.2):
         # 분류모델 훈련 데이터와 평가 데이터 분할
         return train_test_split(x, y, test_size=test_size)
+
 
 class Prediction:
     def __init__(self):
@@ -69,7 +86,7 @@ class Prediction:
             model = RandomForestClassifier(n_estimators=100, oob_score=True)
             model.fit(X_train, y_train)
             score = model.score(X_eval, y_eval)
-            pbar.set_description(f"{i+1}번째 모델 생성중 - 현재 최적모델 :  {self.__best_model_number+1} ")
+            pbar.set_description(f"{i + 1}번째 모델 생성중 - 현재 최적모델 :  {self.__best_model_number + 1} ")
             if self.__best_score < score:
                 self.__best_score = score
                 self.__best_model = model
