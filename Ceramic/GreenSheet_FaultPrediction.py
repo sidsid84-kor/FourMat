@@ -47,7 +47,7 @@ class Visualization:
 
         thresh = __cf.max() / 2.
         for i, j in itertools.product(range(__cf.shape[0]), range(__cf.shape[1])):
-            plt.text(j, i, __cf[i, j], horizontalalignment="center", color="white" if __cf[i, j] > thresh else "black")
+            plt.text(j, i, round(__cf[i, j],2), horizontalalignment="center", color="white" if __cf[i, j] > thresh else "black")
 
         plt.tight_layout()
         plt.ylabel('True')
