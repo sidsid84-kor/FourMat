@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split, cross_val_predict
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn import tree
 import warnings
+import itertools
 import seaborn as sns
 import tqdm
 
@@ -30,8 +31,29 @@ class Visualization:
 
     def confusion_matrix(self, trains, preds):
         __cf = confusion_matrix(trains, preds)
+        # print(__cf)
+        # plt.imshow(__cf, cmap='gray')
+        classes = ['0','1']
+        plt.figure(figsize=(10, 10))
+        plt.imshow(__cf, interpolation='nearest', cmap='gray')
+        plt.title('confusion matrix')
+        plt.colorbar()
+        tick_marks=np.arange(len(classes))
+        plt.xticks(tick_marks, classes, rotation=45)
+        plt.yticks(tick_marks, classes)
+
+        __cf = __cf.astype('float') / __cf.sum(axis=1)[:, np.newaxis]
         print(__cf)
-        plt.imshow(__cf, cmap='binary')
+
+        thresh = __cf.max() / 2.
+        for i, j in itertools.product(range(__cf.shape[0]), range(__cf.shape[1])):
+            plt.text(j, i, __cf[i, j], horizontalalignment="center", color="white" if __cf[i, j] > thresh else "black")
+
+        plt.tight_layout()
+        plt.ylabel('True')
+        plt.xlabel('Predicted')
+
+        plt.show()
 
 
 class DataSet:
