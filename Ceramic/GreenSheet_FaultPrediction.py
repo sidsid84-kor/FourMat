@@ -28,18 +28,10 @@ class Visualization:
         plt.show()
         return __trains
 
-    def predicts(self, p_model, x, x_eval, y, y_eval ,p_cv=3):
-        __pred = cross_val_predict(p_model, x, y, cv=p_cv)
-
-        p_model.fit(x, y)
-
-        mypredictions = p_model.predict(x_eval)
-        print(' 정확도 : {0:.4f}'.format(accuracy_score(y_eval, mypredictions)))
-        return __pred
-
     def confusion_matrix(self, trains, preds):
         __cf = confusion_matrix(trains, preds)
         print(__cf)
+        plt.imshow(__cf, cmap='binary')
 
 
 class DataSet:
@@ -101,8 +93,12 @@ class Prediction:
     def model_predict(self, trainss, test_data):
         # 불량 예측결과 테이블 시각화 (Real - binary_failure, Pred - predicted_label)
         preds = self.__best_model.predict(test_data)
-        trainss['predicted_label'] = preds
-        print(trainss.head(10))
+        return preds
+
+    def acc_score(self, y_true, y_pred):
+        acc = accuracy_score(y_true, y_pred)
+        print(' 정확도 : {0:.4f}'.format(acc))
+        return acc
 
     def tree(self, features):
         # 생성된 의사결정 트리 시각화
