@@ -31,8 +31,7 @@ class Visualization:
 
     def confusion_matrix(self, trains, preds):
         __cf = confusion_matrix(trains, preds)
-        # print(__cf)
-        # plt.imshow(__cf, cmap='gray')
+        print(__cf)
         classes = ['0','1']
         plt.figure(figsize=(10, 10))
         plt.imshow(__cf, interpolation='nearest', cmap=plt.cm.Blues)
@@ -42,12 +41,11 @@ class Visualization:
         plt.xticks(tick_marks, classes)
         plt.yticks(tick_marks, classes)
 
-        __cf = __cf.astype('float') / __cf.sum(axis=1)[:, np.newaxis]
-        print(__cf)
+        __ncf = __cf.astype('float') / __cf.sum(axis=1)[:, np.newaxis]
 
-        thresh = __cf.max() / 2.
+        thresh = __ncf.max() / 2.
         for i, j in itertools.product(range(__cf.shape[0]), range(__cf.shape[1])):
-            plt.text(j, i, round(__cf[i, j],2), horizontalalignment="center", color="white" if __cf[i, j] > thresh else "black")
+            plt.text(j, i, round(__cf[i, j],2), horizontalalignment="center", color="white" if __ncf[i, j] > thresh else "black")
 
         plt.tight_layout()
         plt.ylabel('True')
