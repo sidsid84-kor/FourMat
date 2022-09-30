@@ -75,7 +75,7 @@ class Prediction:
                 self.__best_model = model
                 self.__best_model_number = i
 
-        print("<< 훈련종료 >>")
+        print("\n<< 훈련종료 >>")
         print('훈련 데이터 정확도: {:.3f}'.format(self.__best_model.score(X_train, y_train)))
         print('평가 데이터 정확도: {:.3f}'.format(self.__best_model.score(X_eval, y_eval)))
         print('테스트 데이터 정확도: {:.3f}'.format(self.__best_model.oob_score_))
