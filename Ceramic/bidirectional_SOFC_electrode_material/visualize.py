@@ -35,4 +35,3 @@ def UI_show_corr(df):
             return UI_show_corr(df=df, feature=feature)
         reset_button.on_click(reset_event)
     button.on_click(click_event)
-    return selected_feature
