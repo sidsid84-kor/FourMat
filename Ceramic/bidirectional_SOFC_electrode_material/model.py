@@ -2,9 +2,11 @@ import pandas as pd
 import ipywidgets as widgets
 from pycaret.regression import *
 import plotly.graph_objs as go
+import logging, sys
 
 class UI_regressor_model:
     def __init__(self, train_X, train_y, test_X, test_y):
+        logging.disable(sys.maxsize)
         self.model_dict = {'Linear Regression': 'lr', 'Lasso Regression': 'lasso', 'Ridge Regression': 'ridge', 'Elastic Net': 'en', 'Least Angle Regression': 'lar', 'Lasso Least Angle Regression': 'llar', 'Orthogonal Matching Pursuit': 'omp',
                            'Bayesian Ridge': 'br', 'Automatic Relevance Determination': 'ard', 'Passive Aggressive Regressor': 'par', 'Random Sample Consensus': 'ransac', 'TheilSen Regressor': 'tr', 'Huber Regressor': 'huber',
                            'Kernel Ridge': 'kr', 'Support Vector Regression': 'svm', 'K Neighbors Regressor': 'knn', 'Decision Tree Regressor': 'dt', 'Random Forest Regressor': 'rf', 'Extra Trees Regressor': 'et', 'AdaBoost Regressor': 'ada',
@@ -16,7 +18,7 @@ class UI_regressor_model:
         df = pd.concat([X, y], axis = 1)
         next1_button = widgets.Button(description='Next', button_style='primary')
         train_ratio = len(train_y) / (len(train_y) + len(test_y))
-        self.set_up = setup(data = df, target = self.y_column, fold = 5, silent = True,
+        self.set_up = setup(data = df, target = self.y_column, fold = 5, silent = True, 
                             train_size = train_ratio, verbose=False)
 
 
