@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from IPython.display import clear_output
 
-class UI_set_data:
+class UI_set_feature:
     def __init__(self, df):
         self.df = df
         feature = list(df.corr().columns)
@@ -28,13 +28,13 @@ class UI_set_data:
             self.y_column = [self.y_checklist.value]
             print(f'선택된 X변수 : {self.X_column}')
             print(f'선택된 y변수 : {self.y_column}')
-            print('self.X, self.y로 값이 할당되었습니다.')
+            print('self.X_column, self.y_column로 값이 할당되었습니다.')
 
-class Split_data:
-    def __init__(self, df, X , y):
+class UI_Split_data:
+    def __init__(self, df, X_column , y_column):
         self.df = df
-        self.X = X
-        self.y = y
+        self.X_column = X_column
+        self.y_column = y_column
         self.train_ratio = widgets.IntSlider(
             value=80,
             min=0,
@@ -57,10 +57,10 @@ class Split_data:
     def __return_value_on_click__(self, b):
         train_ratio = int(self.train_ratio.value)
         train_num = len(self.df) * (train_ratio / 100)
-        self.train_X = self.df.loc[:train_num, self.X]
-        self.train_y = self.df.loc[:train_num, self.y]
-        self.test_X = self.df.loc[train_num::, self.X]
-        self.test_y = self.df.loc[train_num:, self.y]
+        self.train_X = self.df.loc[:train_num, self.X_column]
+        self.train_y = self.df.loc[:train_num, self.y_column]
+        self.test_X = self.df.loc[train_num::, self.X_column]
+        self.test_y = self.df.loc[train_num:, self.y_column]
         clear_output(wait=True)
         print('train_X, train_y, test_X, test_y = self.get_splited_data()를 사용하여 할당받으세요.')
     def get_splited_data(self):

@@ -4,10 +4,10 @@ from IPython.display import clear_output
 from sklearn import preprocessing
 import plotly.express as px
 
-def show_corr(df, feature):
+def UI_show_corr(df):
     cor_col = df.corr().columns
     temp_data = df[cor_col]
-    feature = [x for x in feature if x in list(cor_col)]
+    feature = [x for x in df.columns if x in list(cor_col)]
     checkboxes = [widgets.Checkbox(value=True, description=label) for label in feature]
 
 
@@ -32,7 +32,7 @@ def show_corr(df, feature):
         display(reset_button)
         def reset_event(b):
             clear_output(wait=True)
-            return show_corr(df=df, feature=feature)
+            return UI_show_corr(df=df, feature=feature)
         reset_button.on_click(reset_event)
     button.on_click(click_event)
     return selected_feature

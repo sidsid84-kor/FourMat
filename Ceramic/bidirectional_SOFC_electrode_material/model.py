@@ -3,7 +3,7 @@ import ipywidgets as widgets
 from pycaret.regression import *
 import plotly.graph_objs as go
 
-class regressor_model:
+class UI_regressor_model:
     def __init__(self, train_X, train_y, test_X, test_y):
         self.model_dict = {'Linear Regression': 'lr', 'Lasso Regression': 'lasso', 'Ridge Regression': 'ridge', 'Elastic Net': 'en', 'Least Angle Regression': 'lar', 'Lasso Least Angle Regression': 'llar', 'Orthogonal Matching Pursuit': 'omp',
                            'Bayesian Ridge': 'br', 'Automatic Relevance Determination': 'ard', 'Passive Aggressive Regressor': 'par', 'Random Sample Consensus': 'ransac', 'TheilSen Regressor': 'tr', 'Huber Regressor': 'huber',
